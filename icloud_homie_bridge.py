@@ -86,17 +86,17 @@ get_config()
 
 iCloud = homie.Device(homie_config)
 for node in node_config.items():
-  node_config[node[0]]['node'] = iCloud.addNode(node[0], node[0], node[0])
-  node_config[node[0]]['battery_status'] = node_config[node[0]]['node'].addProperty("battery-status", "Battery Status", datatype="string")
-  node_config[node[0]]['battery_level'] = node_config[node[0]]['node'].addProperty("battery-level", "Battery Level", datatype="float")
-  node_config[node[0]]['location'] = node_config[node[0]]['node'].addProperty("location", "Location Coordinates")
-  node_config[node[0]]['location_status'] = node_config[node[0]]['node'].addProperty("location-status", "Location Status", datatype="enum", format="ON,OFF")
-  node_config[node[0]]['location_cache'] = node_config[node[0]]['node'].addProperty("location-cache", "Location Cache", datatype="enum", format="ON,OFF")
-  node_config[node[0]]['play_sound'] = node_config[node[0]]['node'].addProperty("play-sound", "Play Sound",  datatype="enum", format="ON", retained=False)
-  node_config[node[0]]['send_message'] = node_config[node[0]]['node'].addProperty("send-message", "Send Message",  datatype="string", retained=False)
+  node_config[node[0]]['node'] = iCloud.addNode(node[0], node[0].title(), node[0])
+  node_config[node[0]]['battery_status'] = node_config[node[0]]['node'].addProperty("battery-status", "%s Battery Status" % (node[0].title()), datatype="string")
+  node_config[node[0]]['battery_level'] = node_config[node[0]]['node'].addProperty("battery-level", "%s Battery Level" % (node[0].title()), datatype="float")
+  node_config[node[0]]['location'] = node_config[node[0]]['node'].addProperty("location", "%s Location Coordinates" % (node[0].title()))
+  node_config[node[0]]['location_status'] = node_config[node[0]]['node'].addProperty("location-status", "%s Location Status" % (node[0].title()), datatype="enum", format="ON,OFF")
+  node_config[node[0]]['location_cache'] = node_config[node[0]]['node'].addProperty("location-cache", "%s Location Cache" % (node[0].title()), datatype="enum", format="ON,OFF")
+  node_config[node[0]]['play_sound'] = node_config[node[0]]['node'].addProperty("play-sound", "%s Play Sound" % (node[0].title()),  datatype="enum", format="ON", retained=False)
+  node_config[node[0]]['send_message'] = node_config[node[0]]['node'].addProperty("send-message", "%s Send Message" % (node[0].title()),  datatype="string", retained=False)
   
 bridge_node = iCloud.addNode("bridge", "Bridge", "bridge")
-bridge_node_refresh = bridge_node.addProperty("refresh-timer", "Refresh Timer", datatype="integer")
+bridge_node_refresh = bridge_node.addProperty("refresh-timer", "iCloud Refresh Timer", datatype="integer")
 
 def main():
   last_report_time = 0
