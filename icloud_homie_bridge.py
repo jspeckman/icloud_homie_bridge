@@ -10,7 +10,7 @@ homie_config = {}
 node_config = {}
 
 def get_config():
-  with open('config.yaml') as f:
+  with open('/etc/icloud/config.yaml') as f:
     # use safe_load instead load
     configMap = yaml.safe_load(f)
 
