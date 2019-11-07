@@ -80,7 +80,7 @@ def icloud_get_updates():
         if node_config[person[0]]['batteryStatus'] != 'Unknown':
           node_config[node[0]]['battery_level'].update(node_config[person[0]]['batteryLevel'])
         if node_config[person[0]]['enableLocation'] == "ON":
-          node_config[node[0]]['location'].update("%s, %s") %(node_config[person[0]]['latitude'], node_config[person[0]]['longitude'])
+          node_config[node[0]]['location'].update("%s, %s" %(node_config[person[0]]['latitude'], node_config[person[0]]['longitude']))
 
 get_config()
 
