@@ -1,0 +1,16 @@
+homie:
+  HOST: 127.0.0.1
+  KEEPALIVE: 10
+  DEVICE_ID: icloud
+  DEVICE_NAME: iCloud
+  TOPIC: homie
+update:
+  interval: 10
+<person name>:
+  device: iPhone
+  username: <iCloud userid>
+  password: <iCloud password>
+<person name>:
+  device: iPhone
+  username: <iCloud userid>
+  password: <iCloud password>
