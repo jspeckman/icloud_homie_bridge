@@ -15,9 +15,11 @@ TODO:<br>
   
 How to run:<br>
   Copy icloud_homie_bridge.py to /usr/local/bin<br>
+  Copy icloud_login.py to /usr/local/bin<br>
   Create a config.yaml file following the example file and put it in /etc/icloud<br>
   Copy icloud-homie-bridge.service to /usr/lib/systemd/system/<br>
   Run systemctl daemon-reload<br>
   Run systemctl enable icloud-homie-bridge.service<br>
+  Run icloud_login.py (Authorizes the machine and gives a list of iCloud devices per account)<br>
   Run systemctl start icloud-homie-bridge.service<br>
   
