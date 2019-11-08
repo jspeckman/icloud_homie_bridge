@@ -55,32 +55,34 @@ def bridge_node_refresh_handler(property,  value):
   property.update(value)
   
 def icloud_login():
-  for person in node_config.items():
-    node_config[person[0]]['api'] = PyiCloudService(node_config[person[0]]['username'], node_config[person[0]]['password'])
+  for account in node_config.items():
+    node_config[account[0]]['api'] = PyiCloudService(node_config[account[0]]['username'], node_config[account[0]]['password'])
 
 def icloud_get_updates():
   icloud_login()
-  for person in node_config.items():
-    for key, value in node_config[person[0]]['api'].devices.items():
-      if node_config[person[0]]['device'] in str(value):
-        status = node_config[person[0]]['api'].devices.get(key).status(['batteryStatus'])
+  for node in node_config.items():
+    for key, value in node_config[node[0]]['api'].devices.items():
+      if node_config[node[0]]['device'] in str(value):
+        status = node_config[node[0]]['api'].devices.get(key).status(['batteryStatus'])
         if str(status['deviceStatus']) != 203:
-          node_config[person[0]]['batteryStatus'] = status['batteryStatus']
-          if node_config[person[0]]['batteryStatus'] != 'Unknown':
-            node_config[person[0]]['batteryLevel'] = float(status['batteryLevel']) * 100
-          if node_config[person[0]]['enableLocation'] == "ON":
-            if node_config[person[0]]['cachedLocation'] == "OFF":
-              location = node_config[person[0]]['api'].devices.get(key).location()
+          node_config[node[0]]['batteryStatus'] = status['batteryStatus']
+          if node_config[node[0]]['batteryStatus'] != 'Unknown':
+            node_config[node[0]]['batteryLevel'] = float(status['batteryLevel']) * 100
+          if node_config[node[0]]['enableLocation'] == "ON":
+            if node_config[node[0]]['cachedLocation'] == "OFF":
+              location = node_config[node[0]]['api'].devices.get(key).location()
               time.sleep(20)
-            location = node_config[person[0]]['api'].devices.get(key).location()
-            node_config[person[0]]['longitude'] = location['longitude']
-            node_config[person[0]]['latitude'] = location['latitude']
+            location = node_config[node[0]]['api'].devices.get(key).location()
+            node_config[node[0]]['longitude'] = location['longitude']
+            node_config[node[0]]['latitude'] = location['latitude']
           
-        node_config[node[0]]['battery_status'].update(node_config[person[0]]['batteryStatus'])
-        if node_config[person[0]]['batteryStatus'] != 'Unknown':
-          node_config[node[0]]['battery_level'].update(node_config[person[0]]['batteryLevel'])
-        if node_config[person[0]]['enableLocation'] == "ON":
-          node_config[node[0]]['location'].update("%s, %s" %(node_config[person[0]]['latitude'], node_config[person[0]]['longitude']))
+        node_config[node[0]]['battery_status'].update(node_config[node[0]]['batteryStatus'])
+        if node_config[node[0]]['batteryStatus'] != 'Unknown':
+          node_config[node[0]]['battery_level'].update(node_config[node[0]]['batteryLevel'])
+        if node_config[node[0]]['enableLocation'] == "ON":
+          node_config[node[0]]['location'].update("%s, %s" %(node_config[node[0]]['latitude'], node_config[node[0]]['longitude']))
+        node_config[node[0]]['location_status'].update(node_config[node[0]]['enableLocation'])
+        node_config[node[0]]['location_cache'].update(node_config[node[0]]['cachedLocation'])
 
 get_config()
 
@@ -119,6 +121,7 @@ def main():
   while True:
     if (time.time() - last_report_time) > (int(server_config['update']['interval']) * 60):
       icloud_get_updates()
+      bridge_node_refresh.update(server_config['update']['interval'])
       last_report_time = time.time()
     time.sleep(1)
     
