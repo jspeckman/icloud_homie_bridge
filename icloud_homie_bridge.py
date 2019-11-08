@@ -89,7 +89,7 @@ for node in node_config.items():
   node_config[node[0]]['node'] = iCloud.addNode(node[0], node[0].title(), node[0])
   node_config[node[0]]['battery_status'] = node_config[node[0]]['node'].addProperty("battery-status", "%s Battery Status" % (node[0].title()), datatype="string")
   node_config[node[0]]['battery_level'] = node_config[node[0]]['node'].addProperty("battery-level", "%s Battery Level" % (node[0].title()), datatype="float")
-  node_config[node[0]]['location'] = node_config[node[0]]['node'].addProperty("location", "%s Location Coordinates" % (node[0].title()))
+  node_config[node[0]]['location'] = node_config[node[0]]['node'].addProperty("location", "%s Location Coordinates" % (node[0].title()), datatype="string")
   node_config[node[0]]['location_status'] = node_config[node[0]]['node'].addProperty("location-status", "%s Location Status" % (node[0].title()), datatype="enum", format="ON,OFF")
   node_config[node[0]]['location_cache'] = node_config[node[0]]['node'].addProperty("location-cache", "%s Location Cache" % (node[0].title()), datatype="enum", format="ON,OFF")
   node_config[node[0]]['play_sound'] = node_config[node[0]]['node'].addProperty("play-sound", "%s Play Sound" % (node[0].title()),  datatype="enum", format="ON", retained=False)
