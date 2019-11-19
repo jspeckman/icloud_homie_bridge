@@ -8,8 +8,8 @@ That info will then be sent to an mqtt broker using the Homie 3 convention.<br>
 
 Required python modules:<br>
   pyicloud<br>
-  homie-python (The homie-3.0.0 branch of https://github.com/bodiroga/homie-python.git)<br>
-  
+  Homie4<br>
+
 TODO:<br>
   Currently only one iCloud device per account is supported<br>
   

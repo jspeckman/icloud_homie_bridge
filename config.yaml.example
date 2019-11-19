@@ -1,9 +1,6 @@
-homie:
-  HOST: 127.0.0.1
-  KEEPALIVE: 10
-  DEVICE_ID: icloud
-  DEVICE_NAME: iCloud
-  TOPIC: homie
+mqtt:
+  MQTT_BROKER: 127.0.0.1
+  MQTT_PORT: 1883
 update:
   interval: 10
 <person name>:

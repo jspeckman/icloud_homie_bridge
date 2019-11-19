@@ -4,12 +4,16 @@ from pyicloud import PyiCloudService
 
 statusMap = {}
 
-with open('config.yaml') as f:
-  # use safe_load instead load
-  configMap = yaml.safe_load(f)
+try:
+  with open('/etc/icloud/config.yaml') as f:
+    # use safe_load instead load
+    configMap = yaml.safe_load(f)
+except FileNotFoundError:
+  with open('config.yaml') as f:
+    configMap = yaml.safe_load(f)
   
 for person in configMap.items():
-  if person[0] != 'homie' and person[0] != 'update':
+  if person[0] != 'mqtt' and person[0] != 'update':
     statusMap[person[0]] = {}
     data = person[1]
     for key, value in data.items():
