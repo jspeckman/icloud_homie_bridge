@@ -42,6 +42,7 @@ def get_config():
         server_config['update'][key] = value
 
 def location_status_handler(node, value):
+  print(node,  value)
   node_config[node]['enableLocation'] = value
   node_config[node]['location_status'].value = value
   
@@ -97,22 +98,25 @@ get_config()
 
 iCloud = Device_Base(device_id='icloud-bridge', name='iCloud Homie Bridge', mqtt_settings=mqtt_config)
 for node in node_config.items():
+  node_id = node[0]
+  lstatus_handler = lambda value: location_status_handler(node_id, value)
+  
   node_config[node[0]]['node'] = Node_Base(iCloud, node[0], node[0].title(), node[0])
   iCloud.add_node(node_config[node[0]]['node'])
   
-  node_config[node[0]]['battery_status'] = Property_String(node_config[node[0]]['node'], id="battery-status", name="%s Battery Status" % (node[0].title()), settable=False, value=None)
+  node_config[node[0]]['battery_status'] = Property_String(node_config[node[0]]['node'], id="batterystatus", name="%s Battery Status" % (node[0].title()), settable=False, value=None)
   node_config[node[0]]['node'].add_property(node_config[node[0]]['battery_status'])
-  node_config[node[0]]['battery_level'] = Property_Float(node_config[node[0]]['node'], id="battery-level", name="%s Battery Level" % (node[0].title()), settable=False, value=None)
+  node_config[node[0]]['battery_level'] = Property_Float(node_config[node[0]]['node'], id="batterylevel", name="%s Battery Level" % (node[0].title()), settable=False, value=None)
   node_config[node[0]]['node'].add_property(node_config[node[0]]['battery_level'])
   node_config[node[0]]['location'] = Property_String(node_config[node[0]]['node'], id="location", name="%s Location Coordinates" % (node[0].title()), settable=False, value=None)
   node_config[node[0]]['node'].add_property(node_config[node[0]]['location'])
-  node_config[node[0]]['location_status'] = Property_Enum(node_config[node[0]]['node'], id="location-status", name="%s Location Status" % (node[0].title()), data_format='ON,OFF', value=node_config[node[0]]['enableLocation'], set_value = lambda value: location_status_handler(node[0], value))
+  node_config[node[0]]['location_status'] = Property_Enum(node_config[node[0]]['node'], id="locationstatus", name="%s Location Status" % (node[0].title()), data_format='ON,OFF', value=node_config[node[0]]['enableLocation'], set_value = lstatus_handler)
   node_config[node[0]]['node'].add_property(node_config[node[0]]['location_status'])
-  node_config[node[0]]['location_cache'] = Property_Enum(node_config[node[0]]['node'], id="location-cache", name="%s Location Cache" % (node[0].title()), data_format='ON,OFF', value=node_config[node[0]]['cachedLocation'], set_value = lambda value: location_cache_handler(node[0], value))
+  node_config[node[0]]['location_cache'] = Property_Enum(node_config[node[0]]['node'], id="locationcache", name="%s Location Cache" % (node[0].title()), data_format='ON,OFF', value=node_config[node[0]]['cachedLocation'], set_value = lambda value: location_cache_handler(value))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['location_cache'])
-  node_config[node[0]]['play_sound'] = Property_Enum(node_config[node[0]]['node'], id="play-sound", name="%s Play Sound" % (node[0].title()), data_format='ON,OFF', retained=False, value=False, set_value = lambda value: play_sound_handler(node[0]))
+  node_config[node[0]]['play_sound'] = Property_Enum(node_config[node[0]]['node'], id="playsound", name="%s Play Sound" % (node[0].title()), data_format='ON,OFF', retained=False, value='OFF', set_value = lambda value: play_sound_handler(value))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['play_sound'])
-  node_config[node[0]]['send_message'] = Property_String(node_config[node[0]]['node'], id="send-message", name="%s Send Message" % (node[0].title()), retained=False, value=None, set_value = lambda value: send_message_handler(node[0], value))
+  node_config[node[0]]['send_message'] = Property_String(node_config[node[0]]['node'], id="sendmessage", name="%s Send Message" % (node[0].title()), retained=False, value=None, set_value = lambda value: send_message_handler(node[0], value))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['send_message'])
   
 bridge_node = Node_Base(iCloud, "bridge", "Bridge", "bridge")
