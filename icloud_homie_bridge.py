@@ -8,7 +8,7 @@ from homie.node.node_base import Node_Base
 from homie.node.property.property_string import Property_String
 from homie.node.property.property_integer import Property_Integer
 from homie.node.property.property_float import Property_Float
-from homie.node.property.property_switch import Property_Switch
+from homie.node.property.property_enum import Property_Enum
 
 server_config = {}
 mqtt_config = {}
@@ -29,8 +29,8 @@ def get_config():
       data = person[1]
       for key, value in data.items():
         node_config[person[0]][key] = value
-      node_config[person[0]]['cachedLocation'] = True
-      node_config[person[0]]['enableLocation'] = True
+      node_config[person[0]]['cachedLocation'] = 'ON'
+      node_config[person[0]]['enableLocation'] = 'ON'
     elif str(person[0]) == 'mqtt':
       data = person[1]
       for key, value in data.items():
@@ -106,11 +106,11 @@ for node in node_config.items():
   node_config[node[0]]['node'].add_property(node_config[node[0]]['battery_level'])
   node_config[node[0]]['location'] = Property_String(node_config[node[0]]['node'], id="location", name="%s Location Coordinates" % (node[0].title()), settable=False, value=None)
   node_config[node[0]]['node'].add_property(node_config[node[0]]['location'])
-  node_config[node[0]]['location_status'] = Property_Switch(node_config[node[0]]['node'], id="location-status", name="%s Location Status" % (node[0].title()), value=node_config[node[0]]['enableLocation'], set_value = lambda value: location_status_handler(node[0], value))
+  node_config[node[0]]['location_status'] = Property_Enum(node_config[node[0]]['node'], id="location-status", name="%s Location Status" % (node[0].title()), data_format='ON,OFF', value=node_config[node[0]]['enableLocation'], set_value = lambda value: location_status_handler(node[0], value))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['location_status'])
-  node_config[node[0]]['location_cache'] = Property_Switch(node_config[node[0]]['node'], id="location-cache", name="%s Location Cache" % (node[0].title()), value=node_config[node[0]]['cachedLocation'], set_value = lambda value: location_cache_handler(node[0], value))
+  node_config[node[0]]['location_cache'] = Property_Enum(node_config[node[0]]['node'], id="location-cache", name="%s Location Cache" % (node[0].title()), data_format='ON,OFF', value=node_config[node[0]]['cachedLocation'], set_value = lambda value: location_cache_handler(node[0], value))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['location_cache'])
-  node_config[node[0]]['play_sound'] = Property_Switch(node_config[node[0]]['node'], id="play-sound", name="%s Play Sound" % (node[0].title()), retained=False, value=False, set_value = lambda value: play_sound_handler(node[0]))
+  node_config[node[0]]['play_sound'] = Property_Enum(node_config[node[0]]['node'], id="play-sound", name="%s Play Sound" % (node[0].title()), data_format='ON,OFF', retained=False, value=False, set_value = lambda value: play_sound_handler(node[0]))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['play_sound'])
   node_config[node[0]]['send_message'] = Property_String(node_config[node[0]]['node'], id="send-message", name="%s Send Message" % (node[0].title()), retained=False, value=None, set_value = lambda value: send_message_handler(node[0], value))
   node_config[node[0]]['node'].add_property(node_config[node[0]]['send_message'])
