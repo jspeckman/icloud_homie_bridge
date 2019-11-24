@@ -45,6 +45,7 @@ for account in node_config.items():
         sys.exit(1)
 
 for account in node_config.items():
-  print("Devices registered to ", account[0])
+  print("Devices registered to", account[0])
   for key, value in node_config[account[0]]['api'].devices.items():
-    print('Device ID: ', key, 'Description: ', value)
+    print('Device ID: ', key)
+    print('Description: ', value)
