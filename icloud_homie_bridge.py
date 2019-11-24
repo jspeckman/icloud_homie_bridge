@@ -74,7 +74,7 @@ def icloud_get_updates():
   icloud_login()
   for node in node_config.items():
     for key, value in node_config[node[0]]['api'].devices.items():
-      if node_config[node[0]]['device'] in str(value):
+      if node_config[node[0]]['icloud_device_id'] in str(value):
         status = node_config[node[0]]['api'].devices.get(key).status(['batteryStatus'])
         if str(status['deviceStatus']) != 203:
           node_config[node[0]]['batteryStatus'] = status['batteryStatus']
