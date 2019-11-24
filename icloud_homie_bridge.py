@@ -89,13 +89,13 @@ def icloud_get_updates():
               node_config[node[0]]['longitude'] = location['longitude']
               node_config[node[0]]['latitude'] = location['latitude']
             else:
-              node_config[node[0]]['longitude'] = '0'
-              node_config[node[0]]['latitude'] = '0'
+              node_config[node[0]]['longitude'] = ''
+              node_config[node[0]]['latitude'] = ''
           
         node_config[node[0]]['battery_status'].value = node_config[node[0]]['batteryStatus']
         if node_config[node[0]]['batteryStatus'] != 'Unknown':
           node_config[node[0]]['battery_level'].value = node_config[node[0]]['batteryLevel']
-        if node_config[node[0]]['enableLocation'] == "ON":
+        if node_config[node[0]]['enableLocation'] == "ON" and node_config[node[0]]['longitude'] != '':
           node_config[node[0]]['location'].value = "%s, %s" %(node_config[node[0]]['latitude'], node_config[node[0]]['longitude'])
         node_config[node[0]]['location_status'].value = node_config[node[0]]['enableLocation']
         node_config[node[0]]['location_cache'].value = node_config[node[0]]['cachedLocation']
