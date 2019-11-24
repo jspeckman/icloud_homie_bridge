@@ -74,7 +74,7 @@ def icloud_get_updates():
   icloud_login()
   for node in node_config.items():
     for key, value in node_config[node[0]]['api'].devices.items():
-      if node_config[node[0]]['icloud_device_id'] in str(value):
+      if node_config[node[0]]['icloud_device_id'] in str(key):
         status = node_config[node[0]]['api'].devices.get(key).status(['batteryStatus'])
         if str(status['deviceStatus']) != 203:
           node_config[node[0]]['batteryStatus'] = status['batteryStatus']
@@ -85,8 +85,12 @@ def icloud_get_updates():
               location = node_config[node[0]]['api'].devices.get(key).location()
               time.sleep(20)
             location = node_config[node[0]]['api'].devices.get(key).location()
-            node_config[node[0]]['longitude'] = location['longitude']
-            node_config[node[0]]['latitude'] = location['latitude']
+            if location:
+              node_config[node[0]]['longitude'] = location['longitude']
+              node_config[node[0]]['latitude'] = location['latitude']
+            else:
+              node_config[node[0]]['longitude'] = '0'
+              node_config[node[0]]['latitude'] = '0'
           
         node_config[node[0]]['battery_status'].value = node_config[node[0]]['batteryStatus']
         if node_config[node[0]]['batteryStatus'] != 'Unknown':
