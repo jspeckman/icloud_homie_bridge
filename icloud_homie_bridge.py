@@ -23,21 +23,23 @@ def get_config():
     with open('config.yaml') as f:
       configMap = yaml.safe_load(f)
 
-  for person in configMap.items():
-    if str(person[0]) != 'mqtt' and str(person[0]) != 'update':
-      node_config[person[0]] = {}
-      data = person[1]
-      for key, value in data.items():
-        node_config[person[0]][key] = value
-      node_config[person[0]]['cachedLocation'] = 'ON'
-      node_config[person[0]]['enableLocation'] = 'ON'
-    elif str(person[0]) == 'mqtt':
-      data = person[1]
+  for item in configMap.items():
+    if 'account' in item[0]:
+      for device in item[1].items():
+        if 'device' in device[0]:
+          node_config[device[1]['device_name']] = {}
+          node_config[device[1]['device_name']]['icloud_device_id'] = device[1]['device_id']
+          node_config[device[1]['device_name']]['icloud_username'] = item[1]['username']
+          node_config[device[1]['device_name']]['icloud_password'] = item[1]['password']
+          node_config[device[1]['device_name']]['cachedLocation'] = 'ON'
+          node_config[device[1]['device_name']]['enableLocation'] = 'ON'
+    elif 'mqtt' in item[0]:
+      data = item[1]
       for key, value in data.items():
         mqtt_config[key] = value
-    else:
+    elif 'update' in item[0]:
       server_config['update'] = {}
-      data = person[1]
+      data = item[1]
       for key,  value in data.items():
         server_config['update'][key] = value
 
@@ -66,7 +68,7 @@ def bridge_node_refresh_handler(value):
   
 def icloud_login():
   for account in node_config.items():
-    node_config[account[0]]['api'] = PyiCloudService(node_config[account[0]]['username'], node_config[account[0]]['password'])
+    node_config[account[0]]['api'] = PyiCloudService(node_config[account[0]]['icloud_username'], node_config[account[0]]['icloud_password'])
 
 def icloud_get_updates():
   icloud_login()

@@ -3,11 +3,18 @@ mqtt:
   MQTT_PORT: 1883
 update:
   interval: 10
-<person name>:
-  device: iPhone
-  username: <iCloud userid>
-  password: <iCloud password>
-<person name>:
-  device: iPhone
-  username: <iCloud userid>
-  password: <iCloud password>
+account 1:
+  username: <iCloud userid 1>
+  password: <iCloud password 1>
+  device 1:
+    device_name: <name for mqtt node 1>
+    device_id: <icloud device key 1>
+account 2:
+  username: <iCloud userid 2>
+  password: <iCloud password 2>
+  device 1:
+    device_name: <name for mqtt node 2>
+    device_id: <icloud device key 1>
+  device 2:
+    device_name: <name for mqtt node 3>
+    device_id: <icloud device key 2>
