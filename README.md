@@ -11,8 +11,8 @@ Required python modules:<br>
   Homie4<br>
 
 TODO:<br>
-  Currently only one iCloud device per account is supported<br>
-  
+  Auto re-authenticate after iCloud authentication timeout.<br>
+ 
 How to run:<br>
   Copy icloud_homie_bridge.py to /usr/local/bin<br>
   Copy icloud_login.py to /usr/local/bin<br>
